@@ -120,9 +120,9 @@ module.exports = {
                         }
                         if (isMatch) {
                             const token = jwt.sign({
-                                id: userInfo._id,
+                                userId: userInfo._id,
                                 userName: userName
-                            }, "process.env.JWT_KEY", {expiresIn: '1h'});
+                            }, process.env.JWT_KEY, {expiresIn: '1h'});
                             res.json({message: 'User signed in successfully. ', data: {token: token}});
                         } else {
                             res.json({invalidCredentials: 'Invalid Username or Password. '});

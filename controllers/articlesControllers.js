@@ -1,11 +1,15 @@
 const ObjectId = require('mongoose').Types.ObjectId;
+const jwt = require('jsonwebtoken');
 const articlesModel = require('../models/articlesModel');
 
-const checkForErrors = (title, author, body) => {
+const checkForErrors = (title, description, author, body) => {
     let errors = {};
     let isValid = false;
     if (title === '') {
         errors = {...errors, title: 'This field cannot be empty. '};
+    }
+    if (description === '') {
+        errors = {...errors, body: 'This field cannot be empty. '};
     }
     if (author === '') {
         errors = {...errors, author: 'This field cannot be empty. '};
@@ -54,12 +58,14 @@ module.exports = {
         });
     },
     createArticle: function (req, res) {
-        const { title, author, body, authorId } = req.body;
-        const { isValid, errors } = checkForErrors(title, author, body);
-
+        const { title, description, author, body } = req.body;
+        const authorId = req.authorId;
+        const { isValid, errors } = checkForErrors(title, description, author, body);
+        console.log(authorId);
         if (isValid) {
             const newArticle = new articlesModel({
                 title,
+                description,
                 author,
                 authorId: new ObjectId(authorId),
                 body
@@ -73,12 +79,13 @@ module.exports = {
         }
     },
     editArticle: function (req, res) {
-        const { title, author, body, authorId } = req.body;
-        const { isValid, errors } = checkForErrors(title, author, body);
+        const { title, description, author, body, authorId } = req.body;
+        const { isValid, errors } = checkForErrors(title, description, author, body);
 
         if (isValid) {
             const updatedArticle = {
                 title,
+                description,
                 author,
                 authorId: new ObjectId(authorId),
                 body
@@ -102,5 +109,27 @@ module.exports = {
                 res.json({message: 'success'});
             }
         })
-    }
+    },
+    isAuthenticated: function (req, res, next) {
+        if (!req.headers['authorization']) {
+            res.status(403).json({error: "No token provided. "});
+        } else {
+            const authorizationHeader = req.headers['authorization'];
+            const authorizationToken = authorizationHeader.split(' ')[1];
+
+            if (authorizationToken) {
+                jwt.verify(authorizationToken, process.env.JWT_KEY, (err, decoded) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(401).json({error: "Failed to authenticate. "});
+                    } else {
+                        req.authorId = decoded.userId;
+                        next();
+                    }
+                });
+            } else {
+                res.status(403).json({error: "No token provided. "});
+            }
+        }
+    },
 };
