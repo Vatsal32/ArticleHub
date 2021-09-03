@@ -1,0 +1,26 @@
+.Article {
+    list-style: none;
+    background-color: white;
+    box-shadow: 4px 4px #ccc;
+    padding: 12px;
+    text-transform: capitalize;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 12px 0;
+    width: 50%;
+}
+
+.ViewButton {
+    float: right;
+}
+
+.blog-card {
+    width: 47%;
+    margin: auto auto 2rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .blog-card {
+        width: 90%;
+    }
+}

@@ -1,0 +1,12 @@
+.WrappedButton {
+    padding: .4rem 1rem;
+}
+
+.WrappedLink {
+    color: white;
+    text-decoration: none;
+}
+
+.WrappedButton:hover {
+    transform: scale(1.05);
+}

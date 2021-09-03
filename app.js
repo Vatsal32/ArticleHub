@@ -3,12 +3,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const articles = require('./routes/articlesRoute');
 const users = require('./routes/usersRoute');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
 // connect to MongoDB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/articlehub', {
+mongoose.connect(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
 }, (err) => {
     if (!err) {

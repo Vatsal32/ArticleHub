@@ -121,7 +121,7 @@ module.exports = {
                         if (isMatch) {
                             const token = jwt.sign({
                                 userId: userInfo._id,
-                                userName: userName
+                                name: userInfo.name,
                             }, process.env.JWT_KEY, {expiresIn: '1h'});
                             res.json({message: 'User signed in successfully. ', data: {token: token}});
                         } else {

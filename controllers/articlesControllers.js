@@ -61,7 +61,6 @@ module.exports = {
         const { title, description, author, body } = req.body;
         const authorId = req.authorId;
         const { isValid, errors } = checkForErrors(title, description, author, body);
-        console.log(authorId);
         if (isValid) {
             const newArticle = new articlesModel({
                 title,
@@ -70,8 +69,9 @@ module.exports = {
                 authorId: new ObjectId(authorId),
                 body
             });
-
-            newArticle.save().then(() => res.json({message: 'success.'})).catch((err) => {
+            newArticle.save().then((articleInfo) => {
+                res.json({message: 'success.', id: articleInfo._id});
+            }).catch((err) => {
                 return err;
             });
         } else {
@@ -79,8 +79,9 @@ module.exports = {
         }
     },
     editArticle: function (req, res) {
-        const { title, description, author, body, authorId } = req.body;
+        const { title, description, author, body } = req.body;
         const { isValid, errors } = checkForErrors(title, description, author, body);
+        const authorId = req.authorId;
 
         if (isValid) {
             const updatedArticle = {

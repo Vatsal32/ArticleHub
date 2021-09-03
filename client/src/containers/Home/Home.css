@@ -1,0 +1,25 @@
+.main {
+    background-color: #eee;
+}
+
+.Articles {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.jumbotron-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.End {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.AddArticleButtonAtEnd {
+    margin: auto;
+}

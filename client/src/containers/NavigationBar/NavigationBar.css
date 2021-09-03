@@ -1,0 +1,17 @@
+.brand {
+    flex: 0 1 auto;
+}
+
+.logout {
+    max-width: 90px;
+    min-width: 90px;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-toggler {}
