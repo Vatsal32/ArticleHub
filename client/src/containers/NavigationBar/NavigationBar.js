@@ -26,7 +26,6 @@ class NavigationBar extends Component {
                 </NavLink>
             </div>
         );
-        console.log(this.props.authenticatedUser);
         return (
             <nav className="navbar navbar-expand navbar-dark bg-dark">
                 <div className="container-fluid d-flex">
