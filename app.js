@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const articles = require('./routes/articlesRoute');
 const users = require('./routes/usersRoute');
 const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
@@ -39,6 +40,14 @@ app.use((req, res, next) => {
 
 app.use('/api/articles', articles);
 app.use('/api/users', users);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static("client/build"));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
 app.listen(PORT, () => {
     console.log(`Server started at ${PORT}. `);
